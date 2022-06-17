@@ -35,6 +35,7 @@
 #endif
 #if ENABLE_FRILLS
  def(insecure)   // insecure esc sequences
+ def(pty_fd_sig)
  def(hold)       // hold window open after exit
  def(override_redirect)
  def(urgentOnBell)
