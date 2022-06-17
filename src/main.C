@@ -799,7 +799,10 @@ rxvt_term::tt_winch ()
   ws.ws_xpixel = vt_width;
   ws.ws_ypixel = vt_height;
   ioctl (pty->pty, TIOCSWINSZ, &ws);
-
+#if ENABLE_FRILLS
+  if( rs[Rs_pty_fd] )
+      kill( getppid(), SIGWINCH );
+#endif
 #if 0
   // TIOCSWINSZ is supposed to do this automatically and correctly
   if (cmd_pid)               /* force through to the command */
