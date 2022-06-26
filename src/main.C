@@ -801,7 +801,7 @@ rxvt_term::tt_winch ()
   ioctl (pty->pty, TIOCSWINSZ, &ws);
 #if ENABLE_FRILLS
   if( rs[ Rs_pty_fd ]
-  && option( Opt_pty_fd_sig )
+  && option( Opt_resize_signal_parent )
   )
     kill( getppid(), SIGWINCH );
 #endif

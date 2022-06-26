@@ -227,7 +227,7 @@ optList[] = {
               RSTRG (Rs_transient_for, "transient-for", "windowid"),
               BOOL (Rs_override_redirect, "override-redirect", "override-redirect", Opt_override_redirect, 0, "override-redirect on the terminal window"),
               STRG (Rs_pty_fd, NULL, "pty-fd", "fileno", "file descriptor of pty to use"),
-              BOOL( Rs_pty_fd_sig, NULL, "pty-fd-sig", Opt_pty_fd_sig, 0, "signal parent pid with SIGWINCH" ),
+              BOOL( Rs_resize_signal_parent, NULL, "resize-signal-parent", Opt_resize_signal_parent, 0, "signal parent pid with SIGWINCH" ),
               BOOL (Rs_hold, "hold", "hold", Opt_hold, 0, "retain window after shell exit"),
               STRG (Rs_ext_bwidth, "externalBorder", "w", "number", "external border in pixels"),
               STRG (Rs_ext_bwidth, NULL, "bw", NULL, NULL),

@@ -64,7 +64,7 @@
   def (transient_for)
   def (override_redirect)
   def (pty_fd)
-  def (pty_fd_sig)
+  def (resize_signal_parent)
   def (hold)
   def (ext_bwidth)
   def (int_bwidth)
