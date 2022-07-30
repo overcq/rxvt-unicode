@@ -1,4 +1,4 @@
-#rxvt-unicode
+# rxvt-unicode
 
 ## Changes
 
