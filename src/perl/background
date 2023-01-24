@@ -1450,11 +1450,9 @@ sub old_bg_opts {
 }
 
 # helper function, quote string as perl without allowing
-# any code execution or other shenanigans. does not
-# support binary NULs in string.
+# any code execution or other shenanigans.
 sub q0 {
-   (my $str = shift) =~ s/\x00//g; # make sure there really aren't any embedded NULs
-   "q\x00$str\x00"
+   "qq\x00\Q$_[0]\E\x00"
 }
 
 sub old_bg_expr {
@@ -1581,7 +1579,7 @@ sub on_start {
 sub on_osc_seq {
    my ($self, $op, $arg) = @_;
 
-   $op eq "20" or $op eq "706"
+   $op eq "20" or $op eq "705"
       or return;
 
    $self->{bg_opts}
