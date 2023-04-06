@@ -2,4 +2,4 @@
 
 ## Changes
 
-https://overcq.ct8.pl/overcq-rxvt-unicode.html
+https://overcq.ct8.pl/rxvt-unicode.html
