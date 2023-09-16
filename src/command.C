@@ -86,8 +86,6 @@ static unsigned short iso14755_symtab[] = {
   XK_Down,		0x2193,
   XK_KP_Down,		0x2193,
   XK_Linefeed,		0x21b4,
-  XK_Return,		0x21b5,
-  XK_KP_Enter,		0x21b5,
 
   XK_Prior,		0x21de,
   XK_Next,		0x21df,
@@ -112,6 +110,9 @@ static unsigned short iso14755_symtab[] = {
   XK_Clear,		0x2327,
   XK_BackSpace,		0x232b,
   XK_Insert,		0x2380,
+  XK_KP_Enter,		0x2386,
+  XK_Alt_L,		0x2387,
+  XK_Alt_R,		0x2387,
   XK_Control_L,		0x2388,
   XK_Control_R,		0x2388,
   XK_Pause,		0x2389,
@@ -119,6 +120,7 @@ static unsigned short iso14755_symtab[] = {
   XK_Escape,		0x238b,
   XK_Undo,		0x238c,
   XK_Print,		0x2399,
+  XK_Return,		0x23ce,
 
   XK_space,		0x2423,
 
@@ -1283,8 +1285,8 @@ rxvt_term::mouse_report (XButtonEvent &ev)
   int x, y;
   bool release = ev.type == ButtonRelease;
 
-  x = Pixel2Col (ev.x) + 1;
-  y = Pixel2Row (ev.y) + 1;
+  x = 1 + clamp (Pixel2Col (ev.x), 0, ncol - 1);
+  y = 1 + clamp (Pixel2Row (ev.y), 0, nrow - 1);
 
   if (ev.type == MotionNotify)
     {
@@ -1297,8 +1299,11 @@ rxvt_term::mouse_report (XButtonEvent &ev)
     }
 
   button_number = MEvent.button - Button1;
-  /* add 0x3D for wheel events, like xterm does */
-  if (button_number >= 3)
+  if (button_number > 10)
+    return;
+  else if (button_number >= 7)
+    button_number += 128 - 7;
+  else if (button_number >= 3)
     button_number += 64 - 3;
 
   if (priv_modes & PrivMode_MouseX10)
@@ -1358,10 +1363,17 @@ rxvt_term::mouse_report (XButtonEvent &ev)
               x,
               y);
   else if (priv_modes & PrivMode_ExtMouseUTF8)
-    tt_printf ("\033[M%c%lc%lc",
-              code,
-              wint_t (32 + x),
-              wint_t (32 + y));
+    if (code < 128)
+      tt_printf ("\033[M%c%lc%lc",
+                code,
+                wint_t (32 + x),
+                wint_t (32 + y));
+    else
+      tt_printf ("\033[M%c%c%lc%lc",
+                0xc0 + (code >> 6),
+                0x80 + (code & 0x3f),
+                wint_t (32 + x),
+                wint_t (32 + y));
   else
 #endif
     tt_printf ("\033[M%c%c%c",
@@ -2143,7 +2155,7 @@ rxvt_term::button_release (XButtonEvent &ev)
         {
           /* mouse report from vt window */
           /* don't report release of wheel "buttons" */
-          if (ev.button >= 4)
+          if (ev.button >= 4 && ev.button <= 7)
             return;
 #ifdef MOUSE_REPORT_DOUBLECLICK
           /* only report the release of 'slow' single clicks */
